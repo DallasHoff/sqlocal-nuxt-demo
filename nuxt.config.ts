@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
+import sqlocal from 'sqlocal/vite';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -6,25 +7,5 @@ export default defineNuxtConfig({
 	devtools: { enabled: false },
 	ssr: false,
 	css: ['~/assets/css/tailwind.css'],
-	vite: {
-		plugins: [
-			tailwindcss(),
-			{
-				name: 'configure-response-headers',
-				configureServer: (server) => {
-					server.middlewares.use((_req, res, next) => {
-						res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-						res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-						next();
-					});
-				},
-			},
-		],
-		optimizeDeps: {
-			exclude: ['sqlocal'],
-		},
-		worker: {
-			format: 'es',
-		},
-	},
+	vite: { plugins: [tailwindcss(), sqlocal()] },
 });
